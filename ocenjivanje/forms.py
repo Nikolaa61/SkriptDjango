@@ -4,9 +4,9 @@ from .models import Article, Ocena
 class ArticleForm(ModelForm):
     class Meta:
         model = Article
-        field = ['title']
+        fields = ['title', 'content']
 
 class OcenaForm(ModelForm):
     class Meta:
         model = Ocena
-        field = ['broj', 'content']
+        fields = ['broj', 'content']

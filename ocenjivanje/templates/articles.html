@@ -1,0 +1,30 @@
+{%  extends 'master.html' %}
+
+{% block title %}
+    Articles
+{% endblock %}
+
+{%  block content %}
+    <div class="list-group">
+        {% for article in articles %}
+            <a style="font-size: xxx-large" class="list-group-item list-group-item-action" href="{% url 'ocenjivanje:article' article.id %}">
+                {{ article.title }}
+                <br>
+                <span style="color: gold">
+                Prosecna ocena:
+                {{brojOcena}}
+                {{zbir}}
+                {% for ocena in ocene %}
+                    {{brojOcena = brojocena +1}}
+                    {{zbir = zbir + ocena}}
+                {% endfor %}
+                {{% if brojOcena != 0 %}}
+
+                {{% else %}}
+
+                {{% endif %}}
+                </span>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
