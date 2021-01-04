@@ -14,19 +14,12 @@
                 <a href="{% url 'ocenjivanje:oceni' article.id %}">
                         <span class="badge badge-warning">Oceni</span>
                 </a>
+                <a href="{% url 'ocenjivanje:promeniOcenu' article.id %}">
+                        <span class="badge badge-warning">Promeni Ocenu</span>
+                </a>
             </h1>
         </div>
-<!--        <div class="card-body">-->
-<!--            <blockquote class="blockquote mb-0">-->
-<!--                <p>{{ article.content }}</p>-->
-<!--                <footer class="blockquote-footer">-->
-<!--                    Author:-->
-<!--                    <cite title="Source Title">-->
-<!--                        {{ article.owner.username }}-->
-<!--                    </cite>-->
-<!--                </footer>-->
-<!--            </blockquote>-->
-<!--        </div>-->
+
     </div>
 
 {% endblock %}

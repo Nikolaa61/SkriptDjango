@@ -82,6 +82,7 @@ def oceni(req, id):
             o = Ocena(broj=form.cleaned_data['broj'], content=form.cleaned_data['content'])
             a = Article.objects.get(id=id)
             o.article = a
+            o.owner = sample_view(req)
             o.save()
             return redirect('ocenjivanje:articles')
         else:
@@ -91,7 +92,6 @@ def oceni(req, id):
         return render(req, 'oceni.html', {'form': form, 'id': id})
 
 def signup(request):
-    print('cao')
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -104,3 +104,32 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+
+@login_required
+def promeniOcenu(req, id):
+    if req.method == 'POST':
+        form = OcenaForm(req.POST)
+        user = sample_view(req)
+        if form.is_valid():
+            o = Ocena(broj=form.cleaned_data['broj'], content=form.cleaned_data['content'])
+            a = Article.objects.get(id=id)
+            o.article = a
+            o.owner = user
+            if form.is_valid():
+                tmp2 = Ocena.objects.all()
+                if tmp2 is not None:
+                    for ocena in tmp2:
+                        if ocena.article == a:
+                            if ocena.owner == user:
+                                ocena = o
+                                ocena.save()
+            return redirect('ocenjivanje:articles')
+        else:
+            return render(req, 'editOcena.html', {'form': form, 'id': id})
+    else:
+        form = OcenaForm()
+        return render(req, 'editOcena.html', {'form': form, 'id': id})
+
+
+def sample_view(request):
+    return request.user

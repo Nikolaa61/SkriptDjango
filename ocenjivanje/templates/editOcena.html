@@ -1,0 +1,38 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<!--                                 {% url 'ocenjivanje:edit' id %}-->
+    <form method="post" action="{% url 'ocenjivanje:promeniOcenu' id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">{{ form.broj.label_tag }}</label>
+            <input type="text" class="form-control" id="{{ form.title.id_for_label }}" name="{{ form.broj.name }}">
+            {% if form.broj.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.broj.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.content.id_for_label }}">{{ form.content.label_tag }}</label>
+            <textarea class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.name }}" rows="5"></textarea>
+            {% if form.content.errors %}
+                <div class="alert alert-danger">
+                    <ul style="text-align: left">
+                        {% for error in form.content.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+        <input type="submit" class="btn btn-primary btn-lg" value="Save"/>
+    </form>
+
+{% endblock %}
