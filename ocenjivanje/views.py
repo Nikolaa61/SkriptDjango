@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Article, Ocena
@@ -15,7 +17,21 @@ def index(req):
 def articles(req):
     tmp = Article.objects.all()
     tmp2 = Ocena.objects.all()
-    return render(req, 'articles.html', {'articles': tmp, 'ocene':tmp2})
+
+    for article1 in tmp:
+        zbir = 0
+        brOcena = 0
+
+        if tmp2 is not None:
+            for ocena in tmp2:
+                if ocena.article == article1:
+                    zbir = zbir + ocena.broj
+                    brOcena = brOcena + 1
+            prosek = 0
+            if brOcena != 0:
+                prosek = zbir / brOcena
+            article1.prosecnaOcena = prosek
+    return render(req, 'articles.html', {'articles': tmp})
 
 
 @login_required
@@ -57,17 +73,34 @@ def new(req):
         form = ArticleForm()
         return render(req, 'new.html', {'form': form})
 
-@login_required('ocenjivanje.oceni_artikal')
+@login_required
 def oceni(req, id):
     if req.method == 'POST':
         form = OcenaForm(req.POST)
 
         if form.is_valid():
-            o = Ocena(title=form.cleaned_data['title'], content=form.cleaned_data['content'])
+            o = Ocena(broj=form.cleaned_data['broj'], content=form.cleaned_data['content'])
+            a = Article.objects.get(id=id)
+            o.article = a
             o.save()
             return redirect('ocenjivanje:articles')
         else:
-            return render(req, 'oceni.html', {'form': form})
+            return render(req, 'oceni.html', {'form': form, 'id': id})
     else:
-        form = ArticleForm()
-        return render(req, 'oceni.html', {'form': form})
+        form = OcenaForm()
+        return render(req, 'oceni.html', {'form': form, 'id': id})
+
+def signup(request):
+    print('cao')
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('ocenjivanje:articles')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})

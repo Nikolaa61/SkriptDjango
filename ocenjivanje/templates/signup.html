@@ -1,0 +1,61 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+<div class="container register-form">
+            <div class="form">
+                <div class="note">
+                    <p>Registracija</p>
+                </div>
+
+                <div class="form-content" meth>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Name *" value=""/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Phone Number *" value=""/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Password *" value=""/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Confirm Password *" value=""/>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btnSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+      {% for field in form %}
+      <p>
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      {% endfor %}
+      </p>
+</form>
+
+<!--  <h2>Sign up</h2>-->
+<!--  <form method="post">-->
+<!--    {% csrf_token %}-->
+<!--    {% for field in form %}-->
+<!--      <p>-->
+<!--        {{ field.label_tag }}<br>-->
+<!--        {{ field }}-->
+<!--        {% if field.help_text %}-->
+<!--          <small style="color: grey">{{ field.help_text }}</small>-->
+<!--        {% endif %}-->
+<!--        {% for error in field.errors %}-->
+<!--          <p style="color: red">{{ error }}</p>-->
+<!--        {% endfor %}-->
+<!--      </p>-->
+<!--    {% endfor %}-->
+<!--    <button type="submit">Sign up</button>-->
+<!--  </form>-->
+<!--{% endblock %}-->

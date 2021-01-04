@@ -3,4 +3,7 @@
 {%  block content %}
     <p>You are not logged in.</p>
     <a href="{% url 'login'%}">Click here to login.</a>
+    <br>
+    <p>If you don't have acc please register.</p>
+    <a href="{% url 'ocenjivanje:signup'%}">Click here to register.</a>
 {% endblock %}

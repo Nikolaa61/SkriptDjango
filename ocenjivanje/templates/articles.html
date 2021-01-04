@@ -12,17 +12,8 @@
                 <br>
                 <span style="color: gold">
                 Prosecna ocena:
-                {{brojOcena}}
-                {{zbir}}
-                {% for ocena in ocene %}
-                    {{brojOcena = brojocena +1}}
-                    {{zbir = zbir + ocena}}
-                {% endfor %}
-                {{% if brojOcena != 0 %}}
+                {{ article.prosecnaOcena }}
 
-                {{% else %}}
-
-                {{% endif %}}
                 </span>
             </a>
         {% endfor %}
