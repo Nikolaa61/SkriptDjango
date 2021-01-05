@@ -8,14 +8,26 @@
     <div class="list-group">
         {% for article in articles %}
             <a style="font-size: xxx-large" class="list-group-item list-group-item-action" href="{% url 'ocenjivanje:article' article.id %}">
-                <img class="img-fluid" src=""
+
                 {{ article.title }}
                 <br>
                 <span style="color: gold">
                 Prosecna ocena:
                 {{ article.prosecnaOcena }}
-
+                {% for ocena in ocene %}
+                    {% ifequal ocena.article article %}
+                        {% ifequal ocena.owner user %}
+                            <br>
+                            Moja ocena: {{ ocena.broj }}
+                        {% endifequal %}
+                    {% endifequal %}
+                {% endfor %}
                 </span>
+                {% if perms.ocenjivanje.delete_article %}
+                    <a href="{% url 'ocenjivanje:delete' article.id %}">
+                        <span class="badge badge-danger">Delete</span>
+                    </a>
+                {% endif %}
             </a>
         {% endfor %}
     </div>

@@ -17,7 +17,7 @@ def index(req):
 def articles(req):
     tmp = Article.objects.all()
     tmp2 = Ocena.objects.all()
-
+    user = sample_view(req)
     for article1 in tmp:
         zbir = 0
         brOcena = 0
@@ -31,14 +31,18 @@ def articles(req):
             if brOcena != 0:
                 prosek = zbir / brOcena
             article1.prosecnaOcena = prosek
-    return render(req, 'articles.html', {'articles': tmp})
+    return render(req, 'articles.html', {'articles': tmp, 'curentUser':user, 'ocene':tmp2})
 
 
 @login_required
 def article(req, id):
     tmp = get_object_or_404(Article, id=id)
     return render(req, 'article.html', {'article': tmp, 'page_title': tmp.title})
-
+@permission_required('ocenjivanje.delete_article')
+def delete(req, id):
+    a = Article.objects.get(id=id)
+    a.delete()
+    return redirect('ocenjivanje:articles') # mozda treba render !!!! ****
 
 @permission_required('ocenjivanje.change_article')
 def edit(req, id):
