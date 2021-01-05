@@ -8,6 +8,7 @@
     <div class="list-group">
         {% for article in articles %}
             <a style="font-size: xxx-large" class="list-group-item list-group-item-action" href="{% url 'ocenjivanje:article' article.id %}">
+                <img class="img-fluid" src=""
                 {{ article.title }}
                 <br>
                 <span style="color: gold">

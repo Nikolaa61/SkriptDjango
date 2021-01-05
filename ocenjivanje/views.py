@@ -121,7 +121,8 @@ def promeniOcenu(req, id):
                     for ocena in tmp2:
                         if ocena.article == a:
                             if ocena.owner == user:
-                                ocena = o
+                                ocena.broj = o.broj
+                                ocena.content = o.content
                                 ocena.save()
             return redirect('ocenjivanje:articles')
         else:
